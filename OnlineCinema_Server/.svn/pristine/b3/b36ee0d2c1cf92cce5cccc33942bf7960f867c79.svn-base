@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" hash="2842730553">
+    <data-source source="LOCAL" name="PostgreSQL - OnlineCinema@localhost" uuid="7661a0c7-f289-494e-9642-b5fd83e06405">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/OnlineCinema</jdbc-url>
+      <libraries />
+    </data-source>
+  </component>
+</project>
+

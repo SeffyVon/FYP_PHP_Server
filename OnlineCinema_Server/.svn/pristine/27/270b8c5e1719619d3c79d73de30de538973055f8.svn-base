@@ -1,0 +1,27 @@
+<?php
+    include $_SERVER['DOCUMENT_ROOT'] . '/includes/dbConnection.php';
+
+	$uname = $_POST["uname"];
+	$hashOfPw = $_POST["hashOfPw"];
+    $ipAddrUpdate = $_POST["ipAddrUpdate"];
+    $ipAddr = $_POST["ipAddr"];
+	$result = pg_query($dbconn, "SELECT userid FROM users WHERE uname= '" . pg_escape_string($uname) . "' AND hashofpw='" . pg_escape_string($hashOfPw) .  "'");
+	if(!$result)
+		$output = 'Failed authentication!';
+
+    if( $ipAddrUpdate == TRUE){
+        $update_ipAddr = "UPDATE Users SET ipaddr = '" . $ipAddr . "' WHERE userid = ". $row[0] . ";";
+        $pic_result = pg_query($dbconn, $update_ipAddr);
+    }
+
+	if($row = pg_fetch_row($result)) {
+        $output =  "OK";
+ 	}else{
+        $output = "Reject";
+    }
+
+
+echo $output;
+
+
+?>

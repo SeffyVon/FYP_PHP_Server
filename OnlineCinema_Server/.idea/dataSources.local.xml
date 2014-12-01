@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="PostgreSQL - OnlineCinema@localhost" uuid="7661a0c7-f289-494e-9642-b5fd83e06405">
+      <secret-storage>memory</secret-storage>
+      <user-name>postgres</user-name>
+      <schema-pattern>OnlineCinema.pg_catalog OnlineCinema.public</schema-pattern>
+      <default-schemas>OnlineCinema.pg_catalog OnlineCinema.public</default-schemas>
+    </data-source>
+  </component>
+</project>
+

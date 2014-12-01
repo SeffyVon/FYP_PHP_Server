@@ -1,0 +1,71 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: feng
+ * Date: 27/10/2014
+ * Time: 13:51
+ */
+class Group {
+    public $groupname = "";
+    public $User = array();
+
+    public function __construct($groupname)
+    {
+        $this->groupname = $groupname;
+    }
+
+    public function addUser($newUser){
+        array_push($this->User, $newUser);
+    }
+}
+
+class User {
+    public $userid = 0;
+    public $uname = "";
+    public $pic = "";
+
+    public function __construct($uid, $uname)
+    {
+        $this->uname = $uname;
+        $this->userid= $uid;
+        $this->pic = "";
+        // echo 'The class "', __CLASS__, '" was initiated!<br />';
+    }
+}
+
+    include $_SERVER['DOCUMENT_ROOT'] . '/includes/dbConnection.php';
+    function __autoload($class_name) {
+        if(file_exists($class_name . '.php')) {
+            require_once($class_name . '.php');
+        } else {
+            throw new Exception("Unable to load $class_name.");
+        }
+    }
+
+    $uname = pg_escape_string($_POST['uname']);
+
+    $result = pg_query($dbconn,
+        "SELECT groups.groupname, u2.userid, u2.uname
+FROM groups, users u, users u2, ingroup in1, ingroup in2
+WHERE groups.groupid = in2.groupid AND u.userid = in1.userid AND in1.groupid = in2. groupid AND u2.userid = in2.userid AND u.uname = '" .$uname . "'
+GROUP BY groups.groupname, u2.userid, u2.uname;"
+    );
+    if(!$result){
+        echo "0";
+    }
+    else{
+        $groups = array();
+        while ($row = pg_fetch_row($result)) {
+            if(!$groups[$row[0]]){ // no group
+                $newGroup = new Group($row[0]);
+                $newGroup->addUser(new User($row[1],$row[2]));
+                $groups[$row[0]] = $newGroup;
+            }else{ // had group
+                $groups[$row[0]]->addUser(new User($row[1], $row[2]));
+            }
+        }
+        echo json_encode($groups);
+    }
+
+
+?>
