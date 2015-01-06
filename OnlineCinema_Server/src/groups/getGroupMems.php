@@ -11,14 +11,20 @@ class Movie{
     public $startTime = "";
     public $endTime = "";
     public $brief = "";
+    public $ownerIP = "";
+    public $port = 0;
+    public $filesize = 0;
 
-    public function __construct($movieName,$owner,$startTime, $endTime, $brief)
+    public function __construct($movieName,$owner,$startTime, $endTime, $brief, $ownerIP, $port, $filesize)
     {
         $this->movieName = $movieName;
         $this->owner=$owner;
         $this->startTime=$startTime;
         $this->endTime=$endTime;
         $this->brief=$brief;
+        $this->ownerIP=$ownerIP;
+        $this->port = $port;
+        $this->filesize = $filesize;
     }
 
 
@@ -72,7 +78,7 @@ class User {
 //for movies
 
 $result = pg_query($dbconn,
-    "SELECT groupname, moviename, u2.uname, starttime, endtime, brief
+    "SELECT groupname, moviename, u2.uname, starttime, endtime, brief, u2.ipaddr, port, filesize
 FROM groups, ingroup, users u1, movies, users u2
 WHERE movies.movieid = groups.movieid
 AND groups.groupid=ingroup.groupid
@@ -89,7 +95,7 @@ else{
     while ($row = pg_fetch_row($result)) {
 
             $newGroup = new Group(trim($row[0]));
-            $newGroup->setMovie(new Movie(trim($row[1]),trim($row[2]),trim($row[3]),trim($row[4]),trim($row[5])));
+            $newGroup->setMovie(new Movie(trim($row[1]),trim($row[2]),trim($row[3]),trim($row[4]),trim($row[5]),trim($row[6]), $row[7], $row[8]));
             $groups[trim($row[0])] = $newGroup;
 
     }
